@@ -12,6 +12,6 @@ app.use("/", require("./routes/routes"));
 app.use(express.static(path.join(process.cwd(), '/public')));
 app.use(express.static(path.join(process.cwd(), '/view')));
 
-app.listen(3000, () => {
-  console.log("Serving the tea");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Serving the tea at Port "+ (process.env.PORT || 3000));
 });

@@ -12,7 +12,7 @@ const verifyAuthentication = async (request, response, next) => {
 
   try {
     if (authToken !== process.env.AUTHENTICATION_KEY) {
-      return response.status(401).send("Authentication failed"); //TODO correct status?
+      return response.status(401).send("Authentication failed");
     }
     next();
   } catch (error) {
