@@ -13,16 +13,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
             sendLocation(currentLocation)
                 .then((resp) => {
-                    if(resp.status === 200){
+                    if (resp.status === 200) {
                         alert('Successfully sent position');
-                    }else{
+                    } else {
                         saveLocationToLocalStorage(currentLocation);
                         alert("Couldn't send location. Stored locations:\n " + JSON.stringify(locations));
                     }
                 })
                 .catch((error) => {
                     let locations = saveLocationToLocalStorage(currentLocation);
-                    alert("Couldn't send location: " + error+'. Stored locations:\n ' + JSON.stringify(locations));
+                    alert("Couldn't send location: " + error + '. Stored locations:\n ' + JSON.stringify(locations));
                 });
         }, (error) => alert("Couldn't access location: " + error), {
             enableHighAccuracy: true,
@@ -33,30 +33,30 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById('SEND_STORED_LOCATION_ID').onclick = () => {
         let locations = JSON.parse(localStorage.getItem('locations')) || [];
         let promises = [];
-        for(let i = 0; i < locations.length; i++){
+        for (let i = 0; i < locations.length; i++) {
             promises.push(sendLocation({
                 location: locations[i]
             }));
         }
         Promise.all(promises)
-        .then((resps) => {
-            for(let i = 0; i < resps.length; i++){
-                if(resps[i].status !== 200){
-                    alert("Couldn't resend locations");
-                    return;
+            .then((resps) => {
+                for (let i = 0; i < resps.length; i++) {
+                    if (resps[i].status !== 200) {
+                        alert("Couldn't resend locations");
+                        return;
+                    }
                 }
-            }
-            localStorage.setItem('locations', null);
-            alert('Successfully sent positions');
-        })
-        .catch((error) => {
-            alert("Couldn't send locations: "+ error);
-        });
+                localStorage.setItem('locations', null);
+                alert('Successfully sent ' + resps.length + ' positions');
+            })
+            .catch((error) => {
+                alert("Couldn't send locations: " + error);
+            });
     };
-    
+
 }, false);
 
-function sendLocation(location){
+function sendLocation(location) {
     let authenticationKeyId = 'AUTHENTICATION_KEY';
     let authenticationKey = document.getElementById(authenticationKeyId).value;
     return fetch('/postLocation', {
@@ -69,7 +69,7 @@ function sendLocation(location){
     });
 };
 
-function saveLocationToLocalStorage(location){
+function saveLocationToLocalStorage(location) {
     let locations = JSON.parse(localStorage.getItem('locations')) || [];
     locations.push(location.location);
     localStorage.setItem('locations', JSON.stringify(locations));
