@@ -13,12 +13,12 @@ window.addEventListener("DOMContentLoaded", () => {
                         for (let i = 0; i < locations.length; i++) {
                             bounds = evaluateNewBounds(bounds, locations[i]);
                             locationsForLine.push([locations[i].longitude, locations[i].latitude]);
-                            markers.push(createMarker(locations[i], i + 1));
+                            markers.push(createMarker(locations[i], locations.length - i));
                         }
 
                         bounds = [[bounds[0][0] - OFFSET_MAP, bounds[0][1] - OFFSET_MAP], [bounds[1][0] + OFFSET_MAP, bounds[1][1] + OFFSET_MAP]];
 
-                        tt.setProductInfo('boys-am-road-trippn', '2.0.0');
+                        tt.setProductInfo('boys-am-road-trippn', '2.0.1');
                         let map = tt.map({
                             key: getTomTomApiKey(),
                             container: 'map',
